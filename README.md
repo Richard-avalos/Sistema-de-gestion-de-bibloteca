@@ -21,7 +21,11 @@ Antes de instalar, asegúrate de tener los siguientes componentes:
 - Y otros. Consulta la lista completa en el archivo `requirements.txt`.
 
 ## 🌐 Enlace a la Página 
-Explora Bibliotech en el siguiente enlace:
+¡Explora Bibliotech ahora mismo! Accede a la página principal y al panel de administración con las siguientes credenciales:
+
+- **Usuario:** admin
+- **Contraseña:** admin1234
+
 - Bibliotech: [¡Visita Bibliotech!](https://bibliotech-rp4u.onrender.com/)
 
 ## 📬 Contacto
