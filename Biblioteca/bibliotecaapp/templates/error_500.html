@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Oops</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden; /* Evita la barra de desplazamiento vertical */
+        }
+
+        .error-message {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            z-index: 1; /* Asegura que esté en la parte superior */
+        }
+
+        .btn-home {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1; /* Asegura que esté en la parte superior */
+        }
+
+        .window-container {
+            position: relative;
+            z-index: 0; /* Asegura que esté detrás del mensaje y el botón */
+        }
+
+        .window {
+            position: absolute;
+            width: 500px; /* Ancho de la ventana rectangular */
+            height: 370px; /* Altura de la ventana rectangular */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            z-index: 0; /* Asegura que esté detrás del mensaje y el botón */
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .window-header i {
+            cursor: pointer;
+        }
+
+        .window-content {
+            height: calc(100% - 40px); /* Ocupando toda la altura disponible, restando el espacio del encabezado */
+        }
+
+        .window-content img {
+            width: 100%; /* Ocupando toda la anchura disponible */
+            height: 100%; /* Ocupando toda la altura disponible */
+            object-fit: cover; /* Haciendo que la imagen cubra todo el espacio sin distorsión */
+        }
+        
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px; /* Ancho máximo del modal */
+            width: 90%; /* Ancho del modal */
+            max-height: calc(100% - 40px); /* Altura máxima del modal, restando el espacio del encabezado y el botón */
+            height: 70vh; /* Altura del modal */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .error-message {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .btn-home {
+            align-self: center;
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #050607;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-message" style="align-self: center;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #050607;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;">Oops, esto no debió haber pasado.Error 500</div>
+
+    <button class="btn-home" onclick="window.location.href='/indexUsuario/'">Ir a Inicio</button>
+
+    <div class="window-container">
+        <script>
+            const imageUrls = [
+                'https://i.ibb.co/K5PXFm4/Error-Proofing.png',
+                'https://i.pinimg.com/564x/d7/b4/5a/d7b45a0869e4c2300e81f633343f2c65.jpg',
+                'https://i.ibb.co/k8P9FNz/Multi-Type-Glitch-Error-Fonts-16346242-8-580x387.png' ,
+                'https://i.ibb.co/fqBQjJc/21-214471-game-gameover-glitch-tumblr-balloon-text-sad-aesthetic.png',
+            ];
+
+            function getRandomY() {
+                return Math.floor(Math.random() * (window.innerHeight - 210));
+            }
+
+            function getRandomX() {
+                return Math.floor(Math.random() * (window.innerWidth - 410));
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                for (let i = 0; i < imageUrls.length; i++) {
+                    const position = { x: getRandomX(), y: getRandomY() };
+                    const windowDiv = document.createElement('div');
+                    windowDiv.className = 'window';
+                    windowDiv.style.top = `${position.y}px`;
+                    windowDiv.style.left = `${position.x}px`;
+
+                    windowDiv.innerHTML = `
+                        <div class="window-header">
+                            <i class="fas fa-window-minimize"></i>
+                            <i class="far fa-window-maximize"></i>
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="window-content">
+                            <img src="${imageUrls[i]}" alt="Error ${i + 1}">
+                        </div>
+                    `;
+
+                    document.body.appendChild(windowDiv);
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

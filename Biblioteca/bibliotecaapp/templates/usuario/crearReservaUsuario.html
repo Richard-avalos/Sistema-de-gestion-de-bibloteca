@@ -1,0 +1,335 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content />
+        <meta name="author" content />
+        <title>Reserva</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  
+
+
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Incluir aquí las bibliotecas y estilos necesarios (por ejemplo, Bootstrap y DatePicker) -->
+
+    <style>
+
+        .datepicker-dropdown {
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+    
+        /* Personaliza el color del texto en el datepicker */
+        .datepicker-days th, .datepicker-days td {
+            color: #000;
+        }
+    
+        /* Personaliza el color del botón del datepicker */
+        .datepicker-dropdown .datepicker-switch {
+            color: rgb(0, 0, 0);
+        }
+    .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Color de la barra de desplazamiento */
+    border-radius: 6px;
+    border: 3px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Cambia el color al pasar el cursor */
+}
+    
+        #miModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            border-radius: 15px; /* Redondear bordes */
+            max-width: 80%; /* Ajusta el ancho máximo según tus necesidades */
+            overflow: hidden; /* Ocultar desbordamiento */
+        }
+    
+        /* Estilos para el fondo oscurecido detrás del modal */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 767px) {
+    #formReserva {
+        max-width: 100%; /* Ajusta el ancho máximo según tus necesidades para pantallas pequeñas */
+    }
+}
+        
+
+    </style>
+</head>
+<body class="d-flex flex-column ">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+    
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user fa-fw"></i> {{user.username}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                            <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section  class="py-5 flex-grow-1">
+        <div class="container px-5">
+            <div>
+                {% if reserva %}
+                    <h1 class="mt-3">Editar reserva</h1>
+                {% else %}
+                <div class="text-center">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-book"></i></div>
+                    <h1 class="fw-bolder">Crea Tu Reserva</h1>
+                    <p class="lead fw-normal text-muted mb-0">¡Elige Tu Libro Preferido y Disfrutalo!</p>
+                </div>
+                {% endif %}
+                
+                <form method="post" class="mt-1" id="formReserva" style="margin-top: 200px;" >
+                    {% csrf_token %}
+                
+                    <div class="form-group">
+                        <label for="id_IDlibro">{{ form.IDlibro.label_tag }}</label>
+                        {{ form.IDlibro }}
+                    </div>
+                
+                    <div class="form-group">
+                        {{ form.fechaRetiro.label_tag }}
+                        <div class="input-group date" data-provide="datepicker">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="font-size: 25px; "><i class="fas fa-calendar"></i></span>
+                            </div>
+                            {{ form.fechaRetiro }}
+                        </div>
+                    </div>
+                
+                    <div class="d-flex justify-content-left mt-3">
+                        <button type="button" id="btnMostrarReserva" class="btn btn-primary" style="margin-right: 8px;">Mostrar Reserva</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                    
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </section>
+    <div>
+        <footer class="bg-dark py-3 mt-auto">
+            <div class="container px-5">
+                <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                    </div>
+                    <div class="col-auto mt-2 mt-sm-0">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+   </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        async function mostrarReserva(event) {
+            event.preventDefault();
+        
+            // const userID = document.getElementById('id_IDusuario').value;
+            const bookID = document.getElementById('id_IDlibro').value;
+            const pickupDate = document.getElementById('id_fechaRetiro').value;
+            const autorID= document.getElementById('id_IDlibro').value;
+            
+        
+            if (!bookID) {
+                console.error('ID de libro no proporcionado.');
+                return;
+            }
+        
+            try {
+                // // Fetch user details
+                // const userResponse = await fetch(`/api/detalles_usuario/?id=${encodeURIComponent(userID)}`);
+                //const userDetails = await userResponse.json();
+        
+                // Fetch book details
+                const bookResponse = await fetch(`/api/detalles_libro/?id=${encodeURIComponent(bookID)}`);
+                const detallesLibro = await bookResponse.json();
+
+                const autorResponse = await fetch(`/api/detalles_autor/?id=${encodeURIComponent(autorID)}`);
+                const autorDetails = await autorResponse.json();
+                const closeButtonStyle = `
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    padding: 8px 16px;
+                    background-color: transparent;
+                    color: rgba(0, 0, 0, 0.5);
+                    border: none; /* Sin borde */
+                    border-radius: 50%;
+                    cursor: pointer;
+                    font-size: 18px;
+                    z-index: 1001;
+                    transition: color 0.3s; /* Efecto de transición solo para el color del texto */
+                `;
+                
+
+                // Create and display dialog
+                const dialogo = document.createElement('dialog');
+                dialogo.style = "display: flex; justify-content: space-between; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 15px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); overflow: hidden;";
+                
+                
+                dialogo.innerHTML = `
+                    <div class="custom-scrollbar">
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    max-height: 1000px;
+                    overflow-y: auto;
+                    justify-content: space-between;
+                    max-width: 600px;
+                    margin: 20px auto;
+                    padding: 20px;
+                    background-color: #fff;
+                    border-radius: 15px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                ">
+                    <div style="flex-basis: 100%;">
+                        <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 10px; text-align: center;">¡Su Reserva Ha Sido Exitosa!</p>
+                        <hr>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="flex-basis: 48%;">
+                                <p><span style="font-weight: bold;">ID Reserva:</span> {{ 14 }}</p>
+                                <p><span style="font-weight: bold;">Usuario:</span> {{ user.username }}</p>
+                                <p><span style="font-weight: bold;">Libro:</span> ${detallesLibro.titulo}</p>
+                                <p><span style="font-weight: bold;">Autor:</span> ${autorDetails.nombre}</p>
+                                <p><span style="font-weight: bold;">Fecha de Retiro:</span> ${pickupDate}</p>
+                            </div>
+                            <div style="flex-basis: 48%; text-align: center;">
+                                <p style="margin-top: 10px; font-weight: bold;">Detalles del Libro:</p>
+                                <img src="${detallesLibro.portada}" alt="Portada del libro" style="width: 100%; max-width: 200px; height: 40; border-radius: 8px;">
+                                <p style="margin-top: 10px;"><span style="font-weight: bold;">Descripción:</span><br>${detallesLibro.descripcion}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; width: 10%;">
+                        <button class="mt-2" id="cerrarDialogo" style="${closeButtonStyle};font-size:35px;">&times;</button>
+                    </div>
+                    <button type="button" onclick="imprimir()" class="btn btn-primary">Imprimir Ticket</button>
+                </div>
+            </div>`;
+
+
+
+
+dialogo.style.border = 'none';
+dialogo.style.padding = '0';
+dialogo.style.backgroundColor = 'transparent';
+
+document.body.appendChild(dialogo);
+
+
+document.getElementById('cerrarDialogo').addEventListener('click', () => {
+    dialogo.remove();
+});
+
+dialogo.showModal();
+        
+                document.getElementById('cerrarDialogo').addEventListener('click', () => {
+                    dialogo.remove();
+                });
+        
+            } catch (error) {
+                console.error('Error al obtener detalles del libro:', error);
+            }
+        }
+        function imprimir(dialogo){
+            window.print('');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.input-group.date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('btnMostrarReserva').addEventListener('click', function(event) {
+            mostrarReserva(event);
+        });
+    </script>
+    
+    
+  
+</html>

@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Preguntas Frecuentes</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+            
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page Content-->
+            <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bolder">Preguntas Frecuentes</h1>
+                        <p class="lead fw-normal text-muted mb-0">¿Cómo podemos ayudarte?</p>
+                    </div>
+                    <div class="row gx-5">
+                        <div class="col-xl-8">
+                            <!-- FAQ Accordion 1-->
+                            <h2 class="fw-bolder mb-3">Sistema Bibliotecario</h2>
+                            <div class="accordion mb-5" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><strong>¿Cuál es el procedimiento para reservar un libro en la biblioteca?</strong></button></h3>
+                                    <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Para reservar un libro en BiblioTech, puedes seguir estos pasos. Primero, inicia sesión en nuestro sistema en línea utilizando tu cuenta de usuario. Luego, busca el libro que deseas reservar a través de nuestro catálogo en línea. Una vez que encuentres el libro, deberías ver la opción de "Reservar" o un botón similar. Haz clic en esa opción, y el sistema te guiará para completar la reserva. Si encuentras algún problema, no dudes en pedir asistencia a uno de nuestros bibliotecarios en el mostrador de atención al usuario.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><strong>¿Cuáles son los horarios hábiles de la biblioteca para la atención al público y acceso a sus servicios?</strong></button></h3>
+                                    <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Los horarios hábiles de la biblioteca varían según los días de la semana. Actualmente, la biblioteca está abierta al público de lunes a viernes de 9:00 a.m. a 6:00 p.m. Los sábados, la biblioteca opera de 10:00 a.m. a 3:00 p.m. Estos horarios permiten a los usuarios acceder a la colección de libros, utilizar servicios de préstamo y devolución, así como recibir asistencia por parte del personal bibliotecario. Es importante tener en cuenta que los horarios pueden estar sujetos a cambios estacionales o días festivos, por lo que se recomienda verificar la información actualizada antes de planificar su visita.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><strong>Cómo puedo asegurarme de que un libro específico esté disponible para su préstamo en la biblioteca?</strong></button></h3>
+                                    <div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Para verificar la disponibilidad de un libro en BiblioTech, hay un proceso sencillo. Puedes acceder a nuestro catálogo en línea utilizando tu cuenta de usuario. Busca el libro de interés y verifica su estado de disponibilidad.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Accordion 2-->
+                            <h2 class="fw-bolder mb-3">Sitio Web</h2>
+                            <div class="accordion mb-5 mb-xl-0" id="accordionExample2">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2"><strong>¿Hay una sección de novedades o libros destacados en el sitio web?</strong> </button></h3>
+                                    <div class="accordion-collapse collapse show" id="collapseOne2" aria-labelledby="headingOne" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            Sí, visita la sección "Nuestro Recomendados De Esta Semana"en la pagina Inicio para descubrir los libros más recientes y destacados.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2"><strong>¿La biblioteca ofrece servicios en línea, como la descarga de libros electrónicos?</strong></button></h3>
+                                    <div class="accordion-collapse collapse" id="collapseTwo2" aria-labelledby="headingTwo" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            No, en este momento, la biblioteca no ofrece servicios en línea para la descarga de libros electrónicos ni la reserva de salas de estudio. Estamos trabajando constantemente para mejorar nuestros servicios y te invitamos a estar atento a futuras actualizaciones en nuestro sitio web.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2"><strong>¿Cómo puedo acceder al catálogo en línea desde la página principal del sitio?</strong></button></h3>
+                                    <div class="accordion-collapse collapse" id="collapseThree2" aria-labelledby="headingThree" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            Desde la página principal, haz clic en la sección "Libros" en el menú de navegación.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="card border-0 bg-light mt-xl-5">
+                                <div class="card-body p-4 py-lg-5">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div class="h6 fw-bolder">¿Tienes más preguntas?</div>
+                                            <p class="text-muted mb-4">
+                                                Contáctanos en
+                                                <br />
+                                                <a href="mailto:bibliotech2023.contact@gmail.com">bibliotech2023.contact@gmail.com</a>
+                                                <img src="https://i.ibb.co/wBSXDGx/biblioteech.png" width="70%" class="loguitoo">
+                                            </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer-->
+        <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                    </div>
+                    <div class="col-auto mt-2 mt-sm-0">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

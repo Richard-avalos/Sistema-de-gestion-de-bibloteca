@@ -1,0 +1,88 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Registrarse - BiblioTech</title>
+    <link href="{% static 'p2/css/styles.css' %}" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .card-links {
+            display: flex;
+            justify-content: center;  /* Centra los elementos */
+            align-items: center;
+            padding: 0 20px;  /* Ajusta el valor según sea necesario */
+        }
+
+        /* Estilos para pantallas más pequeñas */
+        @media (max-width: 768px) {
+            .col-lg-5 {
+                max-width: 100%;
+            }
+        }
+
+        /* Estilos para los botones */
+        .btn-primary {
+            width: 100%; /* Ocupa el 100% del ancho disponible */
+            margin-top: 10px; /* Espacio superior */
+            margin-bottom: 10px; /* Espacio inferior */
+        }
+    </style>
+</head>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Registrar usuario</h3></div>
+                                <div class="card-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        {{ form | crispy }}
+                                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                                    </form>
+                                </div>
+                                <div class="card text-center py-3">
+                                    <span>¿Ya tienes una cuenta? </span>
+                                    <div class="small card-links">
+                                        <a href={% url 'login' %}>Iniciar Sesión</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <br>
+        <br>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; BiblioTech 2023</div>
+                        <div>
+                            <a href="#">Politica de Privacidad</a>
+                            &middot;
+                            <a href="#">Terminos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="{% static 'p2/js/scripts.js' %}"></script>
+</body>
+</html>

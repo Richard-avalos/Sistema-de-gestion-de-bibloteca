@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="scripts.js"></script>
+        <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{{ libro.titulo }}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+        <style>
+        
+            .comentario-text {
+                max-width: 950px; 
+                word-wrap: break-word;
+            }
+            .nav-link {
+                cursor: pointer;
+            }
+
+            .nav-link.active {
+          font-weight: bold; 
+}
+
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+         
+            function cambiarContenidoDiv1() {
+                $('.contenido-div').hide();
+                $('#contenido-div-1').show();
+
+                $('.nav-link').removeClass('active');
+                $('.nav-link:eq(7)').addClass('active');
+            }
+            function cambiarContenidoDiv2() {
+                $('.contenido-div').hide();
+                $('#contenido-div-2').show();
+
+                $('.nav-link').removeClass('active');
+                $('.nav-link:eq(8)').addClass('active');
+            }
+        </script>
+    </head>
+  
+    <body class="d-flex flex-column ">
+        <header>
+
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>    
+        
+        <section  class="py-5 flex-grow-1">
+            <div class="container px-5">
+                    <a href="/indexUsuario/indexLibros" class="btn btn-secondary mb-4">
+                        <i class="fas fa-arrow-left"></i>  Regresar
+                    </a>
+                    <div class="row gx-5">
+                        <div class="col-lg-3">
+                            <img class="card-img-top mb-4 rounded-4" src="{{ libro.portada }}" alt="Portada" loading="lazy" />
+                        </div>
+                        <div class="col-lg-9">
+                            <article>
+                                <header class="mb-4">        
+                                    <h1>{{ libro.titulo }}</h1>    
+                                    <div class="text-muted fst-italic mb-2">{{ libro.IDgenero }}</div>
+                                    <h4 class="d-inline"> {{ libro.IDautor }}</h4>
+                                    <div class="text-muted fst-italic mb-2 d-inline"> • Autor</div>
+                                <section>
+                                    <h5 class="d-inline"> {{ libro.fechaPublicacion }}</h5>
+                                    <div class="text-muted fst-italic mb-2 d-inline">• Fecha de publicación </div>
+                                </section>
+                                <section>
+                                    <h6 class="d-inline"> {{ libro.paginas }}</h6>
+                                    <div class="text-muted fst-italic mb-2 d-inline">• Paginas </div>
+                                </section>
+                                <section>
+                                    <h6 class="d-inline"> {{ libro.existencias }}</h6>
+                                    <div class="text-muted fst-italic mb-2 d-inline">• Existencias </div>
+                                </section>
+                                </header>
+                                <section class="mb-5">  
+                                    <p class="fs-5 mb-4">{{ libro.descripcion }}</p>
+                                    <a href="/indexUsuario/reservas/crearReservas" class="btn btn-primary">Reservar Libro</a>
+                                </section>
+                            </article>
+                        </div>
+                        <nav class="nav-bar mb-4">
+                            <ul class="nav">
+                            <a class="nav-link border-bottom  "  onclick="cambiarContenidoDiv1()" type="button">Sinopsis</a>
+                            <a class="nav-link border-bottom"  onclick="cambiarContenidoDiv2()" type="button">Comentarios</a>
+                            </ul>
+                        </nav>
+
+                            <div id="contenido-div-1" class="contenido-div"> 
+                                {{libro.sinopsis}}
+                            </div>
+                            <div id="contenido-div-2" class="contenido-div">
+                                <form method="post" class="mb-4">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+                                </form>
+                                {% for comentario in comentarios reversed %}
+                                    <div class="d-flex mb-4">
+                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">{{ comentario.nombre }}</div>
+                                            <p class="comentario-text">{{ comentario.comentario }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+   
+        </section >
+        <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                    </div>
+                    <div class="col-auto mt-2 mt-sm-0">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+   
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+       
+            $(document).ready(function() {
+                cambiarContenidoDiv1();
+            });
+        </script>  
+</main>
+    
+</body>     
+</html>  

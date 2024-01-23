@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Reseña</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-lSH2RWXuB7L2IKJK1gbs2DSFdFANuHtT+S/2Z0hG5g8eZNJXu4buxR9LGTDB/VsPb9xD+6Sk8sTsRE5+TDiJIw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .star-rating span {
+            font-size: 24px; /* Adjust the font size as needed */
+        }
+
+        .star-rating span.selected {
+            color: gold; /* Change the color of selected stars if needed */
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column">
+    <main class="py-6 flex-grow-1">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+        
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Crear Reseña</h2>
+                    <form id="reviewForm" method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.codigo_prestamo.id_for_label }}">Código de Préstamo</label>
+                            {{ form.codigo_prestamo }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.comentario.label_tag }}
+                            {{ form.comentario }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="starRating">Puntuación</label>
+                            <div class="star-rating" id="starRating">
+                                <span data-value="1">&#9733;</span>
+                                <span data-value="2">&#9733;</span>
+                                <span data-value="3">&#9733;</span>
+                                <span data-value="4">&#9733;</span>
+                                <span data-value="5">&#9733;</span>
+                            </div>
+                            {{ form.puntuacion }}
+                        </div>
+                        <button type="button" id="showModalBtn" class="btn btn-primary">Mostrar Modal</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Información de Préstamo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Libro:</strong> <span id="info-libro"></span>
+                        </div>
+                        <div>
+                            <strong>Usuario:</strong> <span id="info-usuario"></span>
+                        </div>
+                        <div>
+                            <strong>Fecha de Salida:</strong> <span id="info-fecha-salida"></span>
+                        </div>
+                        <div>
+                            <strong>Fecha de Entrada:</strong> <span id="info-fecha-entrada"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+<div>
+    <footer class="bg-dark py-3 mt-auto">
+        <div class="container px-5">
+            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <div class="col-auto">
+                    <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                </div>
+                <div class="col-auto mt-2 mt-sm-0">
+                    <a class="link-light small" href="#!">Privacy</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="#!">Terms</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var showModalBtn = document.getElementById("showModalBtn");
+
+            if (showModalBtn) {
+                showModalBtn.addEventListener("click", function () {
+                    // Fetch loan information using Ajax
+                    var codigoPrestamo = document.getElementById("id_codigo_prestamo").value.trim();
+
+                    if (codigoPrestamo) {
+                        fetchLoanInfo(codigoPrestamo);
+                    } else {
+                        alert("Por favor, ingrese un código de préstamo válido.");
+                    }
+                });
+            }
+
+            function fetchLoanInfo(codigoPrestamo) {
+                // Use Ajax to fetch loan information and update the UI
+                // Replace this with your actual endpoint for fetching loan information
+                var url = '/api/get_loan_info/' + codigoPrestamo;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.libro && data.usuario) {
+                            updateLoanInfo(data.libro, data.usuario, data.fechaSalida, data.fechaEntrada);
+                            // Open the modal when information is fetched
+                            $('#infoModal').modal('show');
+                        } else {
+                            clearLoanInfo();
+                            alert("No se encontró información para el código de préstamo ingresado.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching loan information:", error);
+                        clearLoanInfo();
+                        alert("Hubo un error al intentar obtener la información del préstamo.");
+                    });
+            }
+
+            function updateLoanInfo(libro, usuario, fechaSalida, fechaEntrada) {
+                var infoLibroElement = document.getElementById("info-libro");
+                var infoUsuarioElement = document.getElementById("info-usuario");
+                var infoFechaSalidaElement = document.getElementById("info-fecha-salida");
+                var infoFechaEntradaElement = document.getElementById("info-fecha-entrada");
+
+                if (infoLibroElement && infoUsuarioElement && infoFechaSalidaElement && infoFechaEntradaElement) {
+                    infoLibroElement.textContent = libro;
+                    infoUsuarioElement.textContent = usuario;
+
+                    // Formatear fechas
+                    var options = {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: false, // formato de 24 horas
+                    };
+
+                    var fechaSalidaFormateada = new Date(fechaSalida).toLocaleString('es-ES', options);
+                    var fechaEntradaFormateada = new Date(fechaEntrada).toLocaleString('es-ES', options);
+
+                    infoFechaSalidaElement.textContent = fechaSalidaFormateada;
+                    infoFechaEntradaElement.textContent = fechaEntradaFormateada;
+                } else {
+                    console.error("One or more elements not found.");
+                }
+            }
+
+            function clearLoanInfo() {
+                var infoLibroElement = document.getElementById("info-libro");
+                var infoUsuarioElement = document.getElementById("info-usuario");
+                var infoFechaSalidaElement = document.getElementById("info-fecha-salida");
+                var infoFechaEntradaElement = document.getElementById("info-fecha-entrada");
+
+                if (infoLibroElement && infoUsuarioElement && infoFechaSalidaElement && infoFechaEntradaElement) {
+                    infoLibroElement.textContent = "";
+                    infoUsuarioElement.textContent = "";
+                    infoFechaSalidaElement.textContent = "";
+                    infoFechaEntradaElement.textContent = "";
+                    // Cerrar el modal si está abierto
+                    $('#infoModal').modal('hide');
+                } else {
+                    console.error("One or more elements not found.");
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var starRating = document.getElementById('starRating');
+            var hiddenPuntuacion = document.getElementById('id_puntuacion');
+
+            if (starRating && hiddenPuntuacion) {
+                var stars = starRating.getElementsByTagName('span');
+                for (var i = 0; i < stars.length; i++) {
+                    stars[i].addEventListener('click', function (event) {
+                        var selectedValue = event.target.getAttribute('data-value');
+                        hiddenPuntuacion.value = selectedValue;
+
+                        // Update the visual highlighting of stars
+                        for (var j = 0; j < stars.length; j++) {
+                            var value = stars[j].getAttribute('data-value');
+                            stars[j].classList.toggle('selected', value <= selectedValue);
+                        }
+                    });
+                }
+            }
+        });
+        </script>
+
+</body>
+</html>

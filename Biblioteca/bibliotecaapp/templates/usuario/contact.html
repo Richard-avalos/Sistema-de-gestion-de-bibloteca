@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content />
+        <meta name="author" content />
+        <title>Contacto</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    </head>
+    <body class="d-flex flex-column">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+            
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            <section class="py-5">
+                <div class="container px-5">
+                    <!-- Formulario de contacto -->
+                    <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                        <div class="text-center mb-5">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                            <h1 class="fw-bolder">Contáctanos</h1>
+                            <p class="lead fw-normal text-muted mb-0">Nos encantaría saber de ti</p>
+                        </div>
+                        <div class="row gx-5 justify-content-center">
+                            <div class="col-lg-8 col-xl-6">
+                                <form action="" method="post" class="mt-4">
+                                    {% csrf_token %}
+                        
+                                    <!-- Entrada de nombre -->
+                                    <div class="mb-3">
+                                        {{ form.nombreCompleto.label_tag }}
+                                        {{ form.nombreCompleto }}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form.correo.label_tag }}
+                                        {{ form.correo }}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form.telefono.label_tag }}
+                                        {{ form.telefono }}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{ form.mensaje.label_tag }}
+                                        {{ form.mensaje }}
+                                    </div>
+                                    <!-- Botón de envío -->
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary" {% if 'ok' in request.GET %}disabled{% endif %} >Enviar Mensaje</button>
+                                        
+                                    </div>
+                                </form>
+                                
+                                {% if 'ok' in request.GET %}
+                                    <div class="alert alert-success mt-5" role="alert">
+                                        <strong>El mensaje se ha enviado correctamente</strong>
+                                    </div>
+                                {% endif %}
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <!-- Tarjetas de contacto -->
+                    <div class="row gx-3 gx-lg-5 row-cols-1 row-cols-lg-3 py-5">
+                        <div class="col">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-chat-dots"></i></div>
+                            <div class="h5 mb-2">Centro de soporte</div>
+                            <p class="text-muted mb-5">Al enviarnos un mensaje desde este formulario, recibirás atención personalizada a tus preguntas.</p>
+                        </div>
+                        <div class="col">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-people"></i></div>
+                            <div class="h5">Comenta con la comunidad</div>
+                            <p class="text-muted mb-5">Explora los comentarios de tus libros favoritos para interactuar con otros usuarios.</p>
+                        </div>
+                        <div class="col">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-question-circle"></i></div>
+                            <div class="h5">Preguntas</div>
+                            <p class="text-muted mb-5">En nuestro apartado de preguntas encontrarás soluciones a inquietudes frecuentes.</p>
+                        </div>
+                
+            </section>
+
+            <!-- footer -->
+            <div>
+                <footer class="bg-dark py-4 mt-auto">
+                    <div class="container px-5">
+                        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                            <div class="col-auto">
+                                <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                            </div>
+                            <div class="col-auto mt-2 mt-sm-0">
+                                <a class="link-light small" href="#!">Privacy</a>
+                                <span class="text-white mx-1">&middot;</span>
+                                <a class="link-light small" href="#!">Terms</a>
+                                <span class="text-white mx-1">&middot;</span>
+                                <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>

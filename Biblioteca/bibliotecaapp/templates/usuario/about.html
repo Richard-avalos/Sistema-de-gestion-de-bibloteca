@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Sobre Nosotros</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+       
+    </head>
+    <body class="d-flex flex-column">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+            
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Header-->
+            <header class="py-5">
+                <div class="container px-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-xxl-6">
+                            <div class="text-center my-5">
+                                <h1 class="fw-bolder mb-3">Explora el Mundo del Conocimiento en BiblioTech</h1>
+                                <p class="lead fw-normal text-muted mb-4">Nuestra misión es proporcionar acceso a una amplia colección de libros y recursos. Únete a nosotros en este viaje de aprendizaje y descubrimiento.</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        
+            <!-- Sección Acerca de uno -->
+            <section class="py-5 bg-light" id="scroll-target">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://media.istockphoto.com/id/1314790210/es/foto/joven-estudiante-que-elige-libro-de-estante-en-biblioteca-en-universidad-comunitaria.jpg?s=612x612&w=0&k=20&c=C31F-ugZhWU5Kbs7JsLZ_2Z8fwQvqf8z1NxT-WulBTg=" alt="Interior de la Biblioteca" /></div>
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder">Vision de BiblioTech</h2>
+                            <p class="lead fw-normal text-muted mb-0">Nuestra vision es ser un espacio que abraza la diversidad de ideas y culturas, aspirando a ser el epicentro donde los sueños se entrelazan con la realidad a través de las palabras.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+            <!-- Sección Acerca de dos -->
+            <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://cdn.pixabay.com/photo/2015/11/19/21/14/glasses-1052023_1280.jpg" alt="Crecimiento de la Biblioteca" /></div>
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder">Expansión de Horizontes</h2>
+                            <p class="lead fw-normal text-muted mb-0">Nuestro compromiso con el crecimiento va más allá de los libros. Explora cómo abrazamos la tecnología y nuevas formas de aprendizaje para servirte mejor.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+          
+        
+            <!-- Pie de página -->
+            <footer class="bg-dark py-4 mt-auto">
+                <div class="container px-5">
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                        </div>
+                        <div class="col-auto mt-2 mt-sm-0">
+                            <a class="link-light small" href="#!">Privacy</a>
+                            <span class="text-white mx-1">&middot;</span>
+                            <a class="link-light small" href="#!">Terms</a>
+                            <span class="text-white mx-1">&middot;</span>
+                            <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        
+            <!-- Bootstrap core JS -->
+           
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+         
+
+            <!-- Core theme JS -->
+        </body>
+        
+</html>

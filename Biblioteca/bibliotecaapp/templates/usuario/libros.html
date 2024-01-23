@@ -1,0 +1,217 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="https://i.ibb.co/XkG0j9c/logobibliotech.png" type="image/png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Catalogo de Libros</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'p1/css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        #scrollToTopBtn {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    background-color: #5E5D5E;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px; /* Ajusta el ancho según tus preferencias */
+    height: 50px; /* Ajusta la altura según tus preferencias */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 999;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+@media screen and (max-width: 768px) {
+    #scrollToTopBtn {
+        font-size: 20px; /* Ajusta el tamaño para pantallas pequeñas */
+        width: 50px; /* Ajusta el ancho para pantallas pequeñas */
+        height: 50px; /* Ajusta la altura para pantallas pequeñas */
+    }
+}
+        .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .search-container input {
+        border-radius: 20px 0 0 20px; /* Bordes redondeados solo en la izquierda */
+        margin-right: 0;
+        padding: 10px;
+        height: 40px; /* Ajusta la altura según tus preferencias */
+    }
+
+   
+    </style>
+</head>
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+            <!-- Navigation-->
+           <!-- Navigation-->
+           <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand"  href="/indexUsuario/">BiblioTech</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/indexUsuario/">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexUsuario/indexLibros/">Ver Libros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexContact/">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexAbout/">Sobre Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/indexPreguntas/">Preguntas</a></li>
+        
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/indexUsuario/reservas/crearReservas/">Reservar Libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/crearReseña/">Reseña</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> {{user.username}}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'exit' %}>Salir</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style=" font-weight: bold;color: #fdfdfd" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-fw"></i> Mi Cuenta
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href={% url 'login' %}>Iniciar Sesion</a></li>
+                                    <li><a class="dropdown-item" href={% url 'register' %}>Registrarse</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    
+            <section>
+                <div class="container px-5 my-5">
+                    <div class="row g-3 align-items-center justify-content-center">
+                        <div class="col-md-8 mx-auto">
+                            <form method="get" action="{% url 'librosUsuarios' %}" class="mb-4">
+                                <div class="search-container">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            
+                                            <button class="input-group-text" type="submit" style="height: 40px; background-color: rgb(19, 75, 217); color: #fff;">
+                                                    <i class="fas fa-search" tyle="height: 26px;"></i>Buscar
+                                                </button>
+                                        </div>
+                                        <input type="text" class="form-control" id="query" name="q" placeholder="Buscar por autor, título o categoría" value="{{ query }}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-8 col-xl-6">
+                            <div class="text-center">
+                                <h2 class="fw-bolder">Nuestros libros</h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if libros %}
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4">
+                            {% for libro in libros %}
+                                <div class="col mb-4">
+                                    <div class="card h-100 shadow border-0">
+                                        <img class="card-img-top custom-img-size" src="{{ libro.portada }}" alt="Portada" loading="lazy" />
+                                        <div class="card-body p-4">
+                                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">{{ libro.IDgenero }}</div>
+                                            <a class="text-decoration-none link-dark stretched-link" href="{% url 'detalle_libro' libro.IDlibro %}"><h5 class="card-title mb-3">{{ libro.titulo }}</h5></a>
+                                            <p class="card-text mb-0">{{ libro.descripcion }}</p>
+                                        </div>
+                                        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                            <div class="d-flex align-items-end justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="small">
+                                                        <div class="fw-bold">{{ libro.IDautor.nombre }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                                </div><div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center">No se encontraron resultados para la búsqueda "{{ query }}".</p>
+                    {% endif %}
+            </div>
+        </section>
+    </main>
+    <button id="scrollToTopBtn" onclick="topFunction()" title="Go to top" >&#9650;</button>
+    <footer class="bg-dark py-4 mt-auto">
+        <div class="container px-5">
+            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <div class="col-auto">
+                    <div class="small m-0 text-white">Copyright &copy; BiblioTech 2023</div>
+                </div>
+                <div class="col-auto mt-2 mt-sm-0">
+                    <a class="link-light small" href="#!">Privacy</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="#!">Terms</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="mailto:bibliotech2023.contact@gmail.com">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script> 
+        <!-- Bootstrap Bundle with Popper -->
+       
+        
+         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.onscroll = function () {
+            scrollFunction();
+        };
+    
+        function scrollFunction() {
+    var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollToTopBtn.style.display = "block";
+    } else {
+        scrollToTopBtn.style.display = "none";
+    }
+}
+document.getElementById("scrollToTopBtn").addEventListener("click", function () {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+});
+    </script>
+    </body>
+    </html>
